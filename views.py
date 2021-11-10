@@ -44,8 +44,7 @@ class Menu(View):
         if element.isdigit():
             value = int(element)
             if not 0 < value <= len(self.options):
-                value = self.display()
-            print(self.options[value - 1])
+                return self.display()
             return self.options[value - 1]
         else:
             return self.display()
@@ -70,69 +69,27 @@ class MainMenu(Menu):
         title = 'Chess Maker V1.00'
         options = [('Joueurs', 1), ('Tournois', 2), ('Quitter', 3)]
         super().__init__(title, options)
-    
-    def display(self):
-        input_user = super().display()
-        if input_user == 'Joueurs':
-            PlayerMenu().display()
-        elif input_user == 'Tournois':
-            TournamentMenu().display()
-        elif input_user == 'Quitter':
-            quit()
 
 
 class PlayerMenu(Menu):
     def __init__(self):
         title = 'Joueurs'
-        options = ['Lister', 'Creer', 'Modifier', 'Retour']
+        options = [('Lister', 1), ('Creer', 2), ('Modifier', 3), ('Retour', 4)]
         super().__init__(title, options)
-    
-    def display(self):
-        input_user = super().display()
-        if input_user == 1:
-            ListPlayer().display()
-        if input_user == 2:
-            AddPlayerForm().display()
-        if input_user == 3:
-            ModifyPlayerForm().display()
-        if input_user == 4:
-            MainMenu().display()
-        self.display()
 
 
 class PlayMenu(Menu):
     def __init__(self):
         title = 'Jouer'
-        options = ['Lancer un tournoi', 'Voir tournees', 'Retour']
+        options = [('Lancer un tournoi', 1), ('Voir tournees', 2), ('Retour', 3)]
         super().__init__(title, options)
-    
-    def display(self):
-        input_user = super().display()
-        if input_user == 1:
-            pass
-        if input_user == 2:
-            pass
-        if input_user == 3:
-            pass
 
 
 class TournamentMenu(Menu):
     def __init__(self):
         title = 'Tournois'
-        options = ['Lister', 'Creer', 'Jouer', 'Retour']
+        options = [('Lister', 1), ('Creer', 2), ('Jouer', 3), ('Retour', 4)]
         super().__init__(title, options)
-    
-    def display(self):
-        input_user = super().display()
-        if input_user == 1:
-            ListTournament().display()
-        if input_user == 2:
-            AddTournamentForm().display()
-        if input_user == 3:
-            PlayMenu().display()
-        if input_user == 4:
-            MainMenu().display()
-        self.display()
 
 
 class AddPlayerForm(Form):
@@ -141,9 +98,6 @@ class AddPlayerForm(Form):
         fields = ['Nom', 'Prenom', 'Rang', 'Sexe', 'Date de naissance']
         super().__init__(title, fields)
 
-    def display(self):
-        return super().display()
-
 
 class ModifyPlayerForm(Form):
     def __init__(self):
@@ -151,46 +105,21 @@ class ModifyPlayerForm(Form):
         fields = ['Rang']
         super().__init__(title, fields)
 
-    def display(self):
-        return super().display()
-
 
 class AddTournamentForm(Form):
     def __init__(self):
         title = 'Creer un tournoi'
         fields = ['Nom', 'Lieu', 'Date', 'Nombre de tours', 'Nombre de joueurs', 'Controle du temps', 'Description']
         super().__init__(title, fields)
-    
-    def display(self):
-        return super().display()
-
 
 class ListTournament(Menu):
     def __init__(self):
         title = 'Lister tournois'
-        options = ['Tous les tournois', 'Tous les tours d un tournoi', 'Tous les matchs d un tournoi', 'Retour']
+        options = [('Tous les tournois', 1), ('Tous les tours d un tournoi', 2), ('Tous les matchs d un tournoi', 3), ('Retour', 4)]
         super().__init__(title, options)
-    
-    def display(self):
-        return super().display()
-
 
 class ListPlayer(Menu):
     def __init__(self):
         title = 'Lister joueurs'
-        options = ['Tous les joueurs par ordre alphabetique', 'Tous les joueurs par classement', 'Retour']
+        options = [('Tous les joueurs par ordre alphabetique', 1), ('Tous les joueurs par classement', 2), ('Retour', 3)]
         super().__init__(title, options)
-    
-    def display(self):
-        input_user = super().display()
-        pm = Manager(Player)
-        all_players = pm.read_all()
-        if input_user == 1:
-            all_players = sorted(all_players, key=lambda player: player.firstname)
-            ListView('List des joueurs par ordre alphabetique', all_players).display()
-        if input_user == 2:
-            all_players = sorted(all_players, key=lambda player: player.ranking, reverse=True)
-            ListView('Tous les joueurs par classement', all_players).display()
-        if input_user == 3:
-            PlayerMenu().display()
-        self.display()
