@@ -39,33 +39,53 @@ class Player(BaseModel):
         if age < 12:
             raise ValueError('Your age is too small')
         return birthdate
+    
+    def __str__(self):
+        return f'{self.id}, {self.firstname}, {self.lastname}, {self.birthdate}, {self.gender.name}, {self.ranking}'
+
+class Score(Enum):
+    WIN = 1.0
+    LOOSE = 0.0
+    DRAW = 0.5 
 
 
-class Match:
-    player_1: tuple(Player, int)
-    player_2: tuple(Player, int)
-    result: constr(min_length=5, max_length=20)
+class Match(BaseModel):
+    player_1_id: PositiveInt
+    player_2_id: PositiveInt
+    player_1_score: Score = None
+    player_2_score: Score = None
+
+    def __str__(self):
+        return f'{self.player_1_id}, {self.player_2_id}, {self.player_1_score.name}, {self.player_2_score.name}'
 
 
-class Round:
-    rounds: List[Match] = []
+class Round(BaseModel):
+    name = constr(min_length=5, max_length=20)
+    matches: List[Match] = []
     start_date: datetime
     end_date: datetime = None
 
+    def __str__(self):
+        return f'{self.name}, {self.matches.__str__()}, {self.start_date}, {self.end_date}'
+
 
 class TimeControl(Enum):
-    bullet = 'bullet'
-    blitz = 'blitz'
-    coup_rapide = 'coup_rapide'
+    BULLET = 'bullet'
+    BLITZ = 'blitz'
+    COUP_RAPIDE = 'coup rapide'
 
 
-class Tournament:
+class Tournament(BaseModel):
+    id: PositiveInt
     name: constr(min_length=5, max_length=20)
     location: constr(min_length=5, max_length=20)
     start_date: datetime
     end_date: datetime = None
+    number_of_rounds: PositiveInt = 4
     rounds: List[Round] = []
     players: List[PositiveInt] = []
     time_control: TimeControl
     description: constr(min_length=5, max_length=40)
-    id: PositiveInt
+
+    def __str__(self):
+        return f'{self.id}: {self.name}, {self.location}, {self.start_date}, {self.end_date}, {self.time_control.name}, {self.description}'

@@ -1,0 +1,28 @@
+[
+    {
+        "id": 1,
+        "name": "Tournoi de Paris",
+        "location": "Paris",
+        "start_date": "2021-10-22T12:00",
+        "end_date": null,
+        "number_of_rounds": 4,
+        "rounds": [
+            {
+                "name": "Round 1",
+                "matches": [
+                    {
+                        "player_1_id": 1,
+                        "player_2_id": 2,
+                        "player_1_score": 1.0,
+                        "player_2_score": 0.0
+                    }
+                ],
+                "start_date": "2021-10-22T12:00",
+                "end_date": "2021-10-22T13:00"
+            }
+        ],
+        "players": [1, 2],
+        "time_control": "bullet",
+        "description": "Tournoi amateur de Paris"  
+    }
+]

@@ -1,0 +1,91 @@
+[
+    {
+        "id": 1,
+        "firstname": "Carlsen",
+        "lastname": "Magnus",
+        "birthdate": "1990-11-30",
+        "gender": "H",
+        "ranking": 2855
+    }
+    ,
+    {
+        "id": 2,
+        "firstname": "Fabiano",
+        "lastname": "Caruana",
+        "birthdate": "1992-07-30",
+        "gender": "H",
+        "ranking": 2800
+    }
+    ,
+    {
+        "id": 3,
+        "firstname": "Ding",
+        "lastname": "Liren",
+        "birthdate": "1992-10-24",
+        "gender": "H",
+        "ranking": 2799
+    }
+    ,
+    {
+        "id": 4,
+        "firstname": "Levon",
+        "lastname": "Aronian",
+        "birthdate": "1982-10-06",
+        "gender": "H",
+        "ranking": 2782
+    }
+    ,
+    {
+        "id": 5,
+        "firstname": "Ian",
+        "lastname": "Nepomniachtchi",
+        "birthdate": "1990-07-14",
+        "gender": "H",
+        "ranking": 2782
+    }
+    ,
+    {
+        "id": 6,
+        "firstname": "Wesley",
+        "lastname": "So",
+        "birthdate": "1993-10-09",
+        "gender": "H",
+        "ranking": 2778
+    }
+    ,
+    {
+        "id": 7,
+        "firstname": "Anish",
+        "lastname": "Giri",
+        "birthdate": "1994-06-28",
+        "gender": "H",
+        "ranking": 2774
+    }
+    ,
+    {
+        "id": 8,
+        "firstname": "Alexander",
+        "lastname": "Grischuk",
+        "birthdate": "1983-10-31",
+        "gender": "H",
+        "ranking": 2773
+    }
+    ,
+    {
+        "id": 9,
+        "firstname": "Alireza",
+        "lastname": "Firouzja",
+        "birthdate": "2003-06-18",
+        "gender": "H",
+        "ranking": 2770
+    }
+    ,
+    {
+        "id": 10,
+        "firstname": "Richard",
+        "lastname": "Rapport",
+        "birthdate": "1996-03-25",
+        "gender": "H",
+        "ranking": 2770
+    }
+]
