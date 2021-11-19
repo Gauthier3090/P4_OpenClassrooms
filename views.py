@@ -45,7 +45,7 @@ class Menu(View):
             value = int(element)
             if not 0 < value <= len(self.options):
                 return self.display()
-            return self.options[value - 1]
+            return self.options[value - 1][1]
         else:
             return self.display()
 
@@ -67,42 +67,42 @@ class Form(View):
 class MainMenu(Menu):
     def __init__(self):
         title = 'Chess Maker V1.00'
-        options = [('Joueurs', 1), ('Tournois', 2), ('Quitter', 3)]
+        options = [('Joueurs', '/players'), ('Tournois', '/tournaments'), ('Quitter', '/quit')]
         super().__init__(title, options)
 
 
 class PlayerMenu(Menu):
     def __init__(self):
         title = 'Joueurs'
-        options = [('Lister', 1), ('Creer', 2), ('Modifier', 3), ('Retour', 4)]
+        options = [('Lister', '/players/list'), ('Ajouter', '/players/add'), ('Modifier', '/players/update'), ('Retour', '/')]
         super().__init__(title, options)
 
 
 class PlayMenu(Menu):
     def __init__(self):
         title = 'Jouer'
-        options = [('Lancer un tournoi', 1), ('Voir tournees', 2), ('Retour', 3)]
+        options = [('Lancer un tournoi', '/tournaments/play/launch'), ('Voir tournees', '/tournaments/play/list'), ('Retour', '/tournaments')]
         super().__init__(title, options)
 
 
 class TournamentMenu(Menu):
     def __init__(self):
         title = 'Tournois'
-        options = [('Lister', 1), ('Creer', 2), ('Jouer', 3), ('Retour', 4)]
+        options = [('Lister', '/tournaments/list'), ('Creer', '/tournaments/add'), ('Jouer', '/tournamements/play'), ('Retour', '/')]
         super().__init__(title, options)
 
 
 class AddPlayerForm(Form):
     def __init__(self):
         title = 'Creer un joueur'
-        fields = ['Nom', 'Prenom', 'Rang', 'Sexe', 'Date de naissance']
+        fields = ['firstname', 'lastname', 'birthdate', 'gender', 'ranking']
         super().__init__(title, fields)
 
 
 class ModifyPlayerForm(Form):
     def __init__(self):
         title = 'Modifier un joueur'
-        fields = ['Rang']
+        fields = ['ranking']
         super().__init__(title, fields)
 
 
@@ -115,11 +115,11 @@ class AddTournamentForm(Form):
 class ListTournament(Menu):
     def __init__(self):
         title = 'Lister tournois'
-        options = [('Tous les tournois', 1), ('Tous les tours d un tournoi', 2), ('Tous les matchs d un tournoi', 3), ('Retour', 4)]
+        options = [('Tous les tournois', '/tournaments/list/all'), ('Tous les tours d un tournoi', '/tournaments/list/rounds'), ('Tous les matchs d un tournoi', '/tournaments/list/matchs'), ('Retour', '/tournaments')]
         super().__init__(title, options)
 
 class ListPlayer(Menu):
     def __init__(self):
         title = 'Lister joueurs'
-        options = [('Tous les joueurs par ordre alphabetique', 1), ('Tous les joueurs par classement', 2), ('Retour', 3)]
+        options = [('Tous les joueurs par ordre alphabetique', '/players/list/order-by-name'), ('Tous les joueurs par classement', '/players/list/order-by-rank'), ('Retour', '/players')]
         super().__init__(title, options)

@@ -1,83 +1,44 @@
 from manager import Manager
+from player_manager import pm
 from models import Player
+from router import Router, router
 from views import AddPlayerForm, AddTournamentForm, ListPlayer, ListTournament, ListView, MainMenu, ModifyPlayerForm, PlayMenu, PlayerMenu, TournamentMenu
 
 
 def main_menu_controller():
-    input_user = MainMenu().display()
-    input_user = input_user[0]
-    if input_user == 'Joueurs':
-        player_menu_controller()
-    elif input_user == 'Tournois':
-        tournament_menu_controller()
-    elif input_user == 'Quitter':
-        quit()
+    router.navigate(MainMenu().display())
 
 def player_menu_controller():
-    input_user = PlayerMenu().display()
-    input_user = input_user[0]
-    if input_user == 'Lister':
-        list_player_controller()
-    if input_user == 'Creer':
-        add_player_controller()
-    if input_user == 'Modifier':
-        modify_player_controller()
-    if input_user == 'Retour':
-        main_menu_controller()
+    router.navigate(PlayerMenu().display())
 
 def tournament_menu_controller():
-    input_user = TournamentMenu().display()
-    input_user = input_user[0]
-    if input_user == 'Lister':
-        list_tournament_controller()
-    if input_user == 'Creer':
-        add_tournament_controller()
-    if input_user == 'Jouer':
-        play_menu_controller()
-    if input_user == 'Retour':
-        main_menu_controller()
+    router.navigate(TournamentMenu().display())
 
 def play_menu_controller():
-    input_user = PlayMenu().display()
-    input_user = input_user[0]
-    if input_user == 'Lancer un tournoi':
-        pass
-    if input_user == 'Voir tournees':
-        pass
-    if input_user == 'Retour':
-        tournament_menu_controller()
+    router.navigate(PlayerMenu().display())
 
 def add_tournament_controller():
     AddTournamentForm().display()
-    tournament_menu_controller()
-
+    #Ajouter un tournoi fichier .json
+    router.navigate('/tournaments')
 
 def list_tournament_controller():
-    ListTournament().display()
-    tournament_menu_controller()
-
+    router.navigate(ListTournament().display())
 
 def add_player_controller():
-    AddPlayerForm().display()
-    player_menu_controller()
-
+    data = AddPlayerForm().display()
+    pm.save(data)
+    router.navigate('/players')
 
 def modify_player_controller():
     ModifyPlayerForm().display()
-    player_menu_controller()
-
+    #Modifier le contenu dans le fichier .json
+    router.navigate('/tournaments')
 
 def list_player_controller():
-    input_user = ListPlayer().display()
-    input_user = input_user[0]
-    pm = Manager(Player)
-    all_players = pm.read_all()
-    if input_user == 'Tous les joueurs par ordre alphabetique':
-        all_players = sorted(all_players, key=lambda player: player.firstname)
-        ListView('List des joueurs par ordre alphabetique', all_players).display()
-    if input_user == 'Tous les joueurs par classement':
-        all_players = sorted(all_players, key=lambda player: player.ranking, reverse=True)
-        ListView('Tous les joueurs par classement', all_players).display()
-    if input_user == 'Retour':
-        player_menu_controller()
-    list_player_controller()
+    router.navigate(ListPlayer().display())
+
+def list_player_by_name_controller():
+    all_players = sorted(pm.read_all(), key=lambda player: player.firstname)
+    ListView('List des joueurs par ordre alphabetique', all_players).display()
+    router.navigate('/players')
