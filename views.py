@@ -104,10 +104,10 @@ class AddPlayerForm(Form):
         super().__init__(title, fields)
 
 
-class ModifyPlayerForm(Form):
+class UpdatePlayerForm(Form):
     def __init__(self):
         title = 'Modifier un joueur'
-        fields = ['ranking']
+        fields = ['id', 'new ranking']
         super().__init__(title, fields)
 
 

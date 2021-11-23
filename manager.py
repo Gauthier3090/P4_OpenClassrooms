@@ -39,3 +39,11 @@ class Manager:
     def save_item(self, id: int):
         item = self.read(id)
         self.table.upsert(Document(json.loads(item.json()), doc_id=id))
+
+    def update_item(self, id: str, ranking: int):
+        with open('db.json', 'r+') as f:
+            data = json.load(f)
+            data['players'][id]['ranking'] = ranking
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate()

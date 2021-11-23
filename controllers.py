@@ -1,7 +1,7 @@
 from player_manager import pm
 from router import router
 from views import AddPlayerForm, AddTournamentForm, ListPlayer, ListTournament
-from views import ListView, MainMenu, ModifyPlayerForm, PlayerMenu
+from views import ListView, MainMenu, UpdatePlayerForm, PlayerMenu
 from views import TournamentMenu
 
 
@@ -33,13 +33,13 @@ def list_tournament_controller():
 
 def add_player_controller():
     data = AddPlayerForm().display()
-    pm.save(data)
+    pm.create(**data)
     router.navigate('/players')
 
 
-def modify_player_controller():
-    # Modifier le contenu dans le fichier .json
-    ModifyPlayerForm().display()
+def update_player_controller():
+    data = UpdatePlayerForm().display()
+    pm.update_item(data['id'], int(data['new ranking']))
     router.navigate('/tournaments')
 
 
