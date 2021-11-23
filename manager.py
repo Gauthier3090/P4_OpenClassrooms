@@ -1,7 +1,6 @@
-from typing import Any, Dict
-
-from pydantic.types import PositiveFloat, PositiveInt
-from models import Name, Player
+from typing import Any
+from tinydb import TinyDB
+from tinydb.table import Document
 import json
 
 
@@ -13,17 +12,22 @@ class Manager:
 
     def __init__(self, item_type: Any):
         self.item_type = item_type
-        self.item_name = item_type.__name__.lower()
-        self.file = f"json\{self.item_name}s.json"
+        self.item_name = self.item_type.__name__.lower()
         self.items = {}
-        with open(self.file, 'r') as data:
-            data = json.loads((data.read()))
-            for item_data in data:
-                self.create(**item_data)
+        db = TinyDB("db.json", sort_keys=True, indent=4)
+        self.table = db.table(self.item_name + "s")
+        self.max_id = 0
+        for item_data in self.table:
+            self.create(**item_data)
 
-    def create(self, *args, **kwargs):
-        item = self.item_type(*args, **kwargs)
+    def create(self, save=True, **kwargs):
+        if "id" not in kwargs:
+            kwargs["id"] = self.max_id + 1
+        item = self.item_type(**kwargs)
         self.items[item.id] = item
+        self.max_id = max(self.max_id, item.id)
+        if save:
+            self.save_item(item.id)
         return item
 
     def read(self, id: int):
@@ -31,16 +35,7 @@ class Manager:
 
     def read_all(self):
         return list(self.items.values())
-    
-    def save(self, new_item: Dict):
-        items = {}
-        if self.item_name == 'player':
-            items.update({'id': len(self.read_all()) + 1})
-            items.update(new_item.copy())
-            items['ranking'] = PositiveInt(items['ranking'])
-            Player(id=items['id'], firstname=Name(items['firstname']), lastname=Name(items['lastname']), birthdate=items['birthdate'], gender=items['gender'], ranking=items['ranking'])
-        with open(self.file, 'r+') as file:
-            data = json.load(file)
-            data.append(items)
-            file.seek(0)
-            json.dump(obj=data, fp=file, indent=4)
+
+    def save_item(self, id: int):
+        item = self.read(id)
+        self.table.upsert(Document(json.loads(item.json()), doc_id=id))

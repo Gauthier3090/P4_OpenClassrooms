@@ -1,0 +1,77 @@
+{
+    "players": {
+        "1": {
+            "birthdate": "1990-11-30",
+            "firstname": "Magnus",
+            "gender": "M",
+            "id": 1,
+            "lastname": "Carlsen",
+            "ranking": 2855
+        },
+        "10": {
+            "birthdate": "1950-12-12",
+            "firstname": "Paul",
+            "gender": "M",
+            "id": 10,
+            "lastname": "Pot",
+            "ranking": 1999
+        },
+        "2": {
+            "birthdate": "1992-07-30",
+            "firstname": "Fabiano",
+            "gender": "M",
+            "id": 2,
+            "lastname": "Caruana",
+            "ranking": 2800
+        },
+        "3": {
+            "birthdate": "1992-10-24",
+            "firstname": "Ding",
+            "gender": "M",
+            "id": 3,
+            "lastname": "Liren",
+            "ranking": 2799
+        },
+        "4": {
+            "birthdate": "1990-07-14",
+            "firstname": "Ian",
+            "gender": "M",
+            "id": 4,
+            "lastname": "Nepomniachtchi",
+            "ranking": 2792
+        },
+        "5": {
+            "birthdate": "1982-10-06",
+            "firstname": "Levon",
+            "gender": "M",
+            "id": 5,
+            "lastname": "Aronian",
+            "ranking": 2782
+        },
+        "6": {
+            "birthdate": "1985-04-12",
+            "firstname": "Shakhriyar",
+            "gender": "M",
+            "id": 6,
+            "lastname": "Mamedyarov",
+            "ranking": 2762
+        },
+        "7": {
+            "birthdate": "1983-10-31",
+            "firstname": "Alexander",
+            "gender": "M",
+            "id": 7,
+            "lastname": "Grischuk",
+            "ranking": 2775
+        },
+        "8": {
+            "birthdate": "1994-06-28",
+            "firstname": "Anish",
+            "gender": "M",
+            "id": 8,
+            "lastname": "Giri",
+            "ranking": 2777
+        }
+    },
+    "tournaments": {}
+}

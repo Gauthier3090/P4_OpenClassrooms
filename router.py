@@ -1,4 +1,4 @@
-from typing import Any, Callable, Tuple
+from typing import Any
 
 
 class Router:
@@ -13,5 +13,6 @@ class Router:
             if p == path:
                 controller()
                 break
+
 
 router = Router()

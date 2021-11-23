@@ -7,7 +7,7 @@ from enum import Enum
 
 
 class Gender(Enum):
-    Male = 'H'
+    Male = 'M'
     Female = 'F'
     NonBinary = 'X'
 
@@ -39,14 +39,16 @@ class Player(BaseModel):
         if age < 12:
             raise ValueError('Your age is too small')
         return birthdate
-    
+
     def __str__(self):
-        return f'{self.id}, {self.firstname}, {self.lastname}, {self.birthdate}, {self.gender.name}, {self.ranking}'
+        return f'{self.id}, {self.firstname}, {self.lastname}, {self.birthdate}\
+        , {self.gender.name}, {self.ranking}'
+
 
 class Score(Enum):
     WIN = 1.0
     LOOSE = 0.0
-    DRAW = 0.5 
+    DRAW = 0.5
 
 
 class Match(BaseModel):
@@ -56,7 +58,8 @@ class Match(BaseModel):
     player_2_score: Score = None
 
     def __str__(self):
-        return f'{self.player_1_id}, {self.player_2_id}, {self.player_1_score.name}, {self.player_2_score.name}'
+        return f'{self.player_1_id}, {self.player_2_id}, {self.player_1_score.name}\
+            , {self.player_2_score.name}'
 
 
 class Round(BaseModel):
@@ -66,7 +69,8 @@ class Round(BaseModel):
     end_date: datetime = None
 
     def __str__(self):
-        return f'{self.name}, {self.matches.__str__()}, {self.start_date}, {self.end_date}'
+        return f'{self.name}, {self.matches.__str__()}, {self.start_date}\
+            , {self.end_date}'
 
 
 class TimeControl(Enum):
@@ -88,4 +92,5 @@ class Tournament(BaseModel):
     description: constr(min_length=5, max_length=40)
 
     def __str__(self):
-        return f'{self.id}: {self.name}, {self.location}, {self.start_date}, {self.end_date}, {self.time_control.name}, {self.description}'
+        return f'{self.id}: {self.name}, {self.location}, {self.start_date},\
+            {self.end_date}, {self.time_control.name}, {self.description}'
