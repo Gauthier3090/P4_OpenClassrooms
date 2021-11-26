@@ -89,5 +89,21 @@
             "ranking": 1999
         }
     },
-    "tournaments": {}
+    "tournaments": {
+        "1": {
+            "description": "tournois amateur",
+            "end_date": null,
+            "id": 1,
+            "location": "Paris",
+            "name": "Tournois de Paris",
+            "number_of_rounds": 4,
+            "players": [
+                1,
+                2
+            ],
+            "rounds": [],
+            "start_date": "2021-10-22T12:00:00",
+            "time_control": "bullet"
+        }
+    }
 }

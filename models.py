@@ -55,17 +55,27 @@ class Match(BaseModel):
     player_1_id: PositiveInt
     player_2_id: PositiveInt
     player_1_score: Score = None
-    player_2_score: Score = None
 
     def __str__(self):
         return f'{self.player_1_id}, {self.player_2_id}, {self.player_1_score.name}\
             , {self.player_2_score.name}'
 
+    @property
+    def player_2_score(self):
+        return Score(1.0 - self.player_1_score.value) if self.player_1_score\
+            else None
+
+    @player_2_score.setter
+    def player_2_score(self, value: float):
+        if isinstance(value, float):
+            if self.player_1_score:
+                self.player_1_score = Score(1.0 - value)
+
 
 class Round(BaseModel):
     name = constr(min_length=5, max_length=20)
     matches: List[Match] = []
-    start_date: datetime
+    start_date: datetime = datetime.today()
     end_date: datetime = None
 
     def __str__(self):
@@ -83,7 +93,7 @@ class Tournament(BaseModel):
     id: PositiveInt
     name: constr(min_length=5, max_length=20)
     location: constr(min_length=5, max_length=20)
-    start_date: datetime
+    start_date: datetime = datetime.today()
     end_date: datetime = None
     number_of_rounds: PositiveInt = 4
     rounds: List[Round] = []
@@ -94,3 +104,12 @@ class Tournament(BaseModel):
     def __str__(self):
         return f'{self.id}: {self.name}, {self.location}, {self.start_date},\
             {self.end_date}, {self.time_control.name}, {self.description}'
+
+    def generate_first_round(self):
+        pass
+
+    def generate_next_round(self):
+        pass
+
+    def play(self, View):
+        pass

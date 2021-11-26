@@ -1,4 +1,5 @@
 from player_manager import pm
+from tournament_manager import tm
 from router import router
 from views import AddPlayerForm, AddTournamentForm, ListPlayer, ListTournament
 from views import ListView, MainMenu, UpdatePlayerForm, PlayerMenu
@@ -22,8 +23,9 @@ def play_menu_controller():
 
 
 def add_tournament_controller():
-    # Ajouter un tournoi fichier .json
-    AddTournamentForm().display()
+    data = AddTournamentForm().display()
+    data['players'] = list(data['players'].split(' '))
+    tm.create(**data)
     router.navigate('/tournaments')
 
 
@@ -39,7 +41,9 @@ def add_player_controller():
 
 def update_player_controller():
     data = UpdatePlayerForm().display()
-    pm.update_item(data['id'], int(data['new ranking']))
+    player = pm.read(data['id'])
+    player.ranking = data['ranking']
+    pm.save_item(player.id)
     router.navigate('/tournaments')
 
 
@@ -49,12 +53,19 @@ def list_player_controller():
 
 def list_player_by_name_controller():
     all_players = sorted(pm.read_all(), key=lambda player: player.firstname)
-    ListView('List des joueurs par ordre alphabetique', all_players).display()
+    ListView('Liste des joueurs par ordre alphabetique', all_players).display()
     router.navigate('/players')
 
 
 def list_player_by_rank_controller():
     all_players = sorted(
         pm.read_all(), key=lambda player: player.ranking, reverse=True)
-    ListView('List des joueurs par classement', all_players).display()
+    ListView('Liste des joueurs par classement', all_players).display()
     router.navigate('/players')
+
+
+def list_all_tournaments_controller():
+    all_tournaments = sorted(
+        tm.read_all(), key=lambda tournament: tournament.id)
+    ListView('Liste de tous les tournois', all_tournaments).display()
+    router.navigate('/tournaments')

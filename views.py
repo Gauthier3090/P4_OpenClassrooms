@@ -114,9 +114,9 @@ class UpdatePlayerForm(Form):
 class AddTournamentForm(Form):
     def __init__(self):
         title = 'Creer un tournoi'
-        fields = ['Nom', 'Lieu', 'Date', 'Nombre de tours',
-                  'Nombre de joueurs',
-                  'Controle du temps', 'Description']
+        fields = ['name', 'location', 'start_date', 'number_of_rounds',
+                  'players',
+                  'time_control', 'description']
         super().__init__(title, fields)
 
 
