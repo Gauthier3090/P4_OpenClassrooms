@@ -1,7 +1,8 @@
 from player_manager import pm
 from tournament_manager import tm
 from router import router
-from views import AddPlayerForm, AddTournamentForm, ListPlayer, ListTournament
+from views import AddPlayerForm, AddTournamentForm, ListPlayer, Menu
+from views import ListTournament, PlayMenu
 from views import ListView, MainMenu, UpdatePlayerForm, PlayerMenu
 from views import TournamentMenu
 
@@ -18,8 +19,17 @@ def tournament_menu_controller():
     router.navigate(TournamentMenu().display())
 
 
+def launch_tournament_controller():
+    id = input('ID du tournoi ? ')
+    tournament = tm.read(int(id))
+    tournament.play(Menu('Score du joueur 1', [('WIN', '1.0'),
+                                               ('LOOSE', '0.0'),
+                                               ('DRAW', '0.5')]))
+    tm.save_item(tournament.id)
+
+
 def play_menu_controller():
-    router.navigate(PlayerMenu().display())
+    router.navigate(PlayMenu().display())
 
 
 def add_tournament_controller():

@@ -93,7 +93,7 @@ class TournamentMenu(Menu):
         title = 'Tournois'
         options = [('Lister', '/tournaments/list'),
                    ('Creer', '/tournaments/add'),
-                   ('Jouer', '/tournamements/play'), ('Retour', '/')]
+                   ('Jouer', '/tournaments/play'), ('Retour', '/')]
         super().__init__(title, options)
 
 

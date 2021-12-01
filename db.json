@@ -101,7 +101,19 @@
                 1,
                 2
             ],
-            "rounds": [],
+            "rounds": [
+                {
+                    "end_date": null,
+                    "matches": [
+                        {
+                            "player_1_id": 1,
+                            "player_1_score": "WIN",
+                            "player_2_id": 2
+                        }
+                    ],
+                    "start_date": "2021-12-01T16:02:10.526266"
+                }
+            ],
             "start_date": "2021-10-22T12:00:00",
             "time_control": "bullet"
         }

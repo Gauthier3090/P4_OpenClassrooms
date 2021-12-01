@@ -5,6 +5,8 @@ from pydantic.class_validators import validator
 from pydantic.types import PositiveInt, constr
 from enum import Enum
 
+from views import Menu
+
 
 class Gender(Enum):
     Male = 'M'
@@ -106,10 +108,24 @@ class Tournament(BaseModel):
             {self.end_date}, {self.time_control.name}, {self.description}'
 
     def generate_first_round(self):
-        pass
+        list_a = []
+        list_b = []
+        for i, player in enumerate(self.players):
+            if i % 2 == 0:
+                list_a.append(player)
+            else:
+                list_b.append(player)
+        for player_1, player_2 in zip(list_a, list_b):
+            self.rounds.append(Round(name='Premier round',
+                                     matches=[Match(player_1_id=player_1,
+                                                    player_2_id=player_2)]))
 
     def generate_next_round(self):
         pass
 
-    def play(self, View):
-        pass
+    def play(self, menu: Menu):
+        if not self.rounds:
+            self.generate_first_round()
+        for round in self.rounds:
+            for match in round.matches:
+                match.player_1_score = Score(float(menu.display())).name
