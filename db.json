@@ -107,11 +107,38 @@
                     "matches": [
                         {
                             "player_1_id": 1,
-                            "player_1_score": "WIN",
+                            "player_1_score": 1.0,
                             "player_2_id": 2
                         }
                     ],
                     "start_date": "2021-12-01T16:02:10.526266"
+                }
+            ],
+            "start_date": "2021-10-22T12:00:00",
+            "time_control": "bullet"
+        },
+        "2": {
+            "description": "tournoi amateur",
+            "end_date": null,
+            "id": 2,
+            "location": "Bruxelles",
+            "name": "Test de tournois",
+            "number_of_rounds": 4,
+            "players": [
+                1,
+                2
+            ],
+            "rounds": [
+                {
+                    "end_date": null,
+                    "matches": [
+                        {
+                            "player_1_id": 1,
+                            "player_1_score": 0.0,
+                            "player_2_id": 2
+                        }
+                    ],
+                    "start_date": "2021-12-02T16:07:17.380634"
                 }
             ],
             "start_date": "2021-10-22T12:00:00",

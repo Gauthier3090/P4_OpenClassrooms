@@ -4,6 +4,7 @@ from datetime import datetime, date
 from pydantic.class_validators import validator
 from pydantic.types import PositiveInt, constr
 from enum import Enum
+from operator import attrgetter
 
 from views import Menu
 
@@ -108,14 +109,9 @@ class Tournament(BaseModel):
             {self.end_date}, {self.time_control.name}, {self.description}'
 
     def generate_first_round(self):
-        list_a = []
-        list_b = []
-        for i, player in enumerate(self.players):
-            if i % 2 == 0:
-                list_a.append(player)
-            else:
-                list_b.append(player)
-        for player_1, player_2 in zip(list_a, list_b):
+        self.players.sort(attrgetter('ranking'), reverse=True)
+        for player_1, player_2 in zip(self.players[:len(self.players) // 2],
+                                      self.players[len(self.players) // 2:]):
             self.rounds.append(Round(name='Premier round',
                                      matches=[Match(player_1_id=player_1,
                                                     player_2_id=player_2)]))
@@ -128,4 +124,4 @@ class Tournament(BaseModel):
             self.generate_first_round()
         for round in self.rounds:
             for match in round.matches:
-                match.player_1_score = Score(float(menu.display())).name
+                match.player_1_score = Score(float(menu.display())).value

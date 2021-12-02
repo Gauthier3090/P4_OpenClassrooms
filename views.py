@@ -83,7 +83,7 @@ class PlayMenu(Menu):
     def __init__(self):
         title = 'Jouer'
         options = [('Lancer un tournoi', '/tournaments/play/launch'),
-                   ('Voir tournees', '/tournaments/play/list'),
+                   ('Tableau des scores d\'un tournoi', '/tournaments/play/list'),
                    ('Retour', '/tournaments')]
         super().__init__(title, options)
 
