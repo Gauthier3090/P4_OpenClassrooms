@@ -24,8 +24,7 @@ def launch_tournament_controller():
     tournament = tm.read(int(id))
     tournament.play(Menu('Score du joueur 1', [('WIN', '1.0'),
                                                ('LOOSE', '0.0'),
-                                               ('DRAW', '0.5')]))
-    tm.save_item(tournament.id)
+                                               ('DRAW', '0.5')]), tm)
 
 
 def play_menu_controller():

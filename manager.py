@@ -19,9 +19,15 @@ class Manager:
         for item_data in self.table:
             self.create(**item_data)
 
+    def get_next_id(self):
+        try:
+            return self.table.all()[-1].doc_id + 1
+        except IndexError:
+            return 1
+
     def create(self, save=True, **kwargs):
         if "id" not in kwargs:
-            kwargs["id"] = self.table.all()[-1].doc_id + 1
+            kwargs["id"] = self.get_next_id()
         item = self.item_type(**kwargs)
         self.items[item.id] = item
         if save:

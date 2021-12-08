@@ -1,4 +1,4 @@
 from manager import Manager
-from models import Tournament
+from models.tournament import Tournament
 
 tm = Manager(Tournament)
