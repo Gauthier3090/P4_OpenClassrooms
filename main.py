@@ -12,7 +12,9 @@ from controllers import (
     list_tournament_controller,
     main_menu_controller,
     player_menu_controller,
-    tournament_menu_controller
+    tournament_menu_controller,
+    list_all_rounds_controller,
+    list_all_matchs_controller
 )
 
 if __name__ == "__main__":
@@ -25,6 +27,8 @@ if __name__ == "__main__":
     router.add_route('/tournaments/play/launch', launch_tournament_controller)
     router.add_route('/tournaments/list', list_tournament_controller)
     router.add_route('/tournaments/list/all', list_all_tournaments_controller)
+    router.add_route('/tournaments/list/rounds', list_all_rounds_controller)
+    router.add_route('/tournaments/list/matchs', list_all_matchs_controller)
     router.add_route('/tournaments/add', add_tournament_controller)
     router.add_route('/players/list', list_player_controller)
     router.add_route('/players/list/order-by-name',

@@ -1,7 +1,8 @@
+from typing import ItemsView
 from player_manager import pm
 from tournament_manager import tm
 from router import router
-from views import AddPlayerForm, AddTournamentForm, ListPlayer, Menu
+from views import AddPlayerForm, AddTournamentForm, ItemView, ListPlayer, Menu
 from views import ListTournament, PlayMenu
 from views import ListView, MainMenu, UpdatePlayerForm, PlayerMenu
 from views import TournamentMenu
@@ -20,11 +21,12 @@ def tournament_menu_controller():
 
 
 def launch_tournament_controller():
-    id = input('ID du tournoi ? ')
-    tournament = tm.read(int(id))
+    id = ItemView('Choisissez un tournoi', tm.read_all()).display()
+    tournament = tm.read(id)
     tournament.play(Menu('Score du joueur 1', [('WIN', '1.0'),
                                                ('LOOSE', '0.0'),
                                                ('DRAW', '0.5')]), tm)
+    router.navigate('/tournaments')
 
 
 def play_menu_controller():
@@ -40,6 +42,27 @@ def add_tournament_controller():
 
 def list_tournament_controller():
     router.navigate(ListTournament().display())
+
+
+def list_all_rounds_controller():
+    all_tournaments = []
+    for id, tournament in enumerate(tm.read_all(), start=1):
+        all_tournaments.append((tournament.name, id))
+    id = Menu('Choisissez un tournoi', all_tournaments).display()
+    ListView('Liste des rounds du tournoi', tm.read(id).rounds).display()
+    router.navigate('/tournaments')
+
+
+def list_all_matchs_controller():
+    all_tournaments = []
+    for id, tournament in enumerate(tm.read_all(), start=1):
+        all_tournaments.append((tournament.name, id))
+    id = Menu('Choisissez un tournoi', all_tournaments).display()
+    all_match = []
+    for match in tm.read(id).rounds:
+        all_match.append(match)
+    ListView('Liste des rounds du tournoi', all_match).display()
+    router.navigate('/tournaments')
 
 
 def add_player_controller():

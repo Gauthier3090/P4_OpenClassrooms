@@ -92,72 +92,121 @@
     "tournaments": {
         "1": {
             "description": "tournois amateur",
-            "end_date": "2021-12-08T16:24:38.678708",
+            "end_date": "2021-12-23T16:18:10.934356",
             "id": 1,
             "location": "Paris",
             "name": "Tournois de Paris",
             "number_of_rounds": 4,
             "players": [
-                3
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
             ],
             "rounds": [
                 {
-                    "end_date": "2021-12-08T16:24:07.918150",
+                    "end_date": "2021-12-23T16:17:01.691917",
                     "matches": [
                         {
                             "player_1_id": 1,
+                            "player_1_score": 1.0,
+                            "player_2_id": 4
+                        }
+                    ],
+                    "start_date": "2021-12-23T16:16:57.458975"
+                },
+                {
+                    "end_date": "2021-12-23T16:17:02.107971",
+                    "matches": [
+                        {
+                            "player_1_id": 2,
                             "player_1_score": 1.0,
                             "player_2_id": 5
                         }
                     ],
-                    "start_date": "2021-12-08T16:24:01.643493"
+                    "start_date": "2021-12-23T16:16:57.458975"
                 },
                 {
-                    "end_date": "2021-12-08T16:24:11.094494",
+                    "end_date": "2021-12-23T16:17:02.600988",
                     "matches": [
                         {
-                            "player_1_id": 2,
+                            "player_1_id": 3,
                             "player_1_score": 1.0,
                             "player_2_id": 6
                         }
                     ],
-                    "start_date": "2021-12-08T16:24:01.643493"
+                    "start_date": "2021-12-23T16:16:57.458975"
                 },
                 {
-                    "end_date": "2021-12-08T16:24:11.647613",
-                    "matches": [
-                        {
-                            "player_1_id": 3,
-                            "player_1_score": 1.0,
-                            "player_2_id": 7
-                        }
-                    ],
-                    "start_date": "2021-12-08T16:24:01.643493"
-                },
-                {
-                    "end_date": "2021-12-08T16:24:12.252131",
-                    "matches": [
-                        {
-                            "player_1_id": 4,
-                            "player_1_score": 1.0,
-                            "player_2_id": 8
-                        }
-                    ],
-                    "start_date": "2021-12-08T16:24:01.643493"
-                },
-                {
-                    "end_date": "2021-12-08T16:24:24.669754",
+                    "end_date": "2021-12-23T16:17:34.154994",
                     "matches": [
                         {
                             "player_1_id": 1,
                             "player_1_score": 0.0,
+                            "player_2_id": 2
+                        }
+                    ],
+                    "start_date": "2021-12-23T16:16:57.458975"
+                },
+                {
+                    "end_date": "2021-12-23T16:17:35.428437",
+                    "matches": [
+                        {
+                            "player_1_id": 3,
+                            "player_1_score": 0.5,
+                            "player_2_id": 4
+                        }
+                    ],
+                    "start_date": "2021-12-23T16:16:57.458975"
+                },
+                {
+                    "end_date": "2021-12-23T16:17:35.988046",
+                    "matches": [
+                        {
+                            "player_1_id": 5,
+                            "player_1_score": 1.0,
+                            "player_2_id": 6
+                        }
+                    ],
+                    "start_date": "2021-12-23T16:16:57.458975"
+                },
+                {
+                    "end_date": "2021-12-23T16:17:55.985746",
+                    "matches": [
+                        {
+                            "player_1_id": 2,
+                            "player_1_score": 0.5,
                             "player_2_id": 3
                         }
                     ],
-                    "start_date": "2021-12-08T16:24:01.643493"
+                    "start_date": "2021-12-23T16:16:57.458975"
                 },
                 {
-                    "end_date": "2021-12-08T16:24:25.272118",
+                    "end_date": "2021-12-23T16:17:56.713410",
+                    "matches": [
+                        {
+                            "player_1_id": 1,
+                            "player_1_score": 0.5,
+                            "player_2_id": 5
+                        }
+                    ],
+                    "start_date": "2021-12-23T16:16:57.458975"
+                },
+                {
+                    "end_date": "2021-12-23T16:17:57.840543",
+                    "matches": [
+                        {
+                            "player_1_id": 4,
+                            "player_1_score": 0.5,
+                            "player_2_id": 6
+                        }
+                    ],
+                    "start_date": "2021-12-23T16:16:57.458975"
+                },
+                {
+                    "end_date": "2021-12-23T16:18:09.409460",
                     "matches": [
                         {
                             "player_1_id": 2,
@@ -165,18 +214,29 @@
                             "player_2_id": 4
                         }
                     ],
-                    "start_date": "2021-12-08T16:24:01.643493"
+                    "start_date": "2021-12-23T16:16:57.458975"
                 },
                 {
-                    "end_date": "2021-12-08T16:24:38.678708",
+                    "end_date": "2021-12-23T16:18:10.510627",
                     "matches": [
                         {
                             "player_1_id": 3,
-                            "player_1_score": 1.0,
-                            "player_2_id": 4
+                            "player_1_score": 0.0,
+                            "player_2_id": 1
                         }
                     ],
-                    "start_date": "2021-12-08T16:24:19.074309"
+                    "start_date": "2021-12-23T16:16:57.458975"
+                },
+                {
+                    "end_date": "2021-12-23T16:18:10.934356",
+                    "matches": [
+                        {
+                            "player_1_id": 5,
+                            "player_1_score": 0.0,
+                            "player_2_id": 6
+                        }
+                    ],
+                    "start_date": "2021-12-23T16:16:57.458975"
                 }
             ],
             "start_date": "2021-10-22T12:00:00",

@@ -50,6 +50,11 @@ class Menu(View):
 
 
 class Form(View):
+    # Dissocier le champ de sa description
+    # Convertir automatiquement l'input dans un type precis
+    # Valeur par defaut (optionnel)
+    # Template pour visualiser les donnees rentrees (optionnels)
+    # Class SelectItem pour les choix possibles
     def __init__(self, title: str, fields: List[str]):
         content = '\n'.\
             join([f"{nb}. {val}" for nb, val in enumerate(fields, start=1)])
@@ -138,4 +143,10 @@ class ListPlayer(Menu):
                     '/players/list/order-by-name'),
                    ('Tous les joueurs par classement',
                    '/players/list/order-by-rank'), ('Retour', '/players')]
+        super().__init__(title, options)
+
+
+class ItemView(Menu):
+    def __init__(self, title: str, items: List[Any]):
+        options = [(str(item), item.id) for item in items]
         super().__init__(title, options)
