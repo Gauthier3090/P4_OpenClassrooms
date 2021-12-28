@@ -10,8 +10,9 @@ class View:
 
     def display(self):
         system('cls' if name == 'nt' else 'clear')
+        print('⎯' * (len(self.title)))
         print(self.title)
-        print('*' * len(self.title))
+        print('⎯' * (len(self.title)))
         print(self.content)
         if self.blocking:
             input()
@@ -19,7 +20,7 @@ class View:
 
 class ListView(View):
     def __init__(self, title: str, items: List[Any]):
-        content = '\n'.\
+        content = '\n'. \
             join([str(item) for item in items])
         super().__init__(title, content, True)
 
@@ -31,7 +32,7 @@ class ErrorView(View):
 
 class Menu(View):
     def __init__(self, title: str, options: List[Tuple[str, str]]):
-        content = '\n'.\
+        content = '\n'. \
             join([f"{nb}. {option}" for nb, (option, _)
                   in enumerate(options, start=1)])
         super().__init__(title, content)
@@ -55,16 +56,23 @@ class Form(View):
     # Valeur par defaut (optionnel)
     # Template pour visualiser les donnees rentrees (optionnels)
     # Class SelectItem pour les choix possibles
-    def __init__(self, title: str, fields: List[str]):
-        content = '\n'.\
+    def __init__(self, title: str, fields: List[Tuple[str, str]]):
+        content = '\n'. \
             join([f"{nb}. {val}" for nb, val in enumerate(fields, start=1)])
         super().__init__(title, content)
         self.fields = fields
         self.data = {}
 
     def display(self):
-        for field in self.fields:
-            self.data[field] = input(field + ' ? ')
+        system('cls' if name == 'nt' else 'clear')
+        print('⎯' * (len(self.title)))
+        print(self.title)
+        print('⎯' * (len(self.title)))
+        values = [[None, type(field[0])] for field in self.fields]
+        print(values)
+        for index, field in enumerate(self.fields):
+            print(f'{index}. {field[1]} ? {"N/A"}')
+        value = input()
         return self.data
 
 
@@ -104,8 +112,14 @@ class TournamentMenu(Menu):
 
 class AddPlayerForm(Form):
     def __init__(self):
-        title = 'Creer un joueur'
-        fields = ['firstname', 'lastname', 'birthdate', 'gender', 'ranking']
+        title = 'Créer un joueur'
+        fields = [('firstname', 'Prénom'),
+                  ('lastname', 'Nom'),
+                  ('birthdate', 'Année'),
+                  ('birthdate', 'Mois'),
+                  ('birthdate', 'Jour'),
+                  ('gender', 'Sexe'),
+                  ('ranking', 'Classement')]
         super().__init__(title, fields)
 
 
@@ -131,7 +145,7 @@ class ListTournament(Menu):
         options = [('Tous les tournois', '/tournaments/list/all'),
                    ('Tous les tours d un tournoi', '/tournaments/list/rounds'),
                    ('Tous les matchs d un tournoi',
-                   '/tournaments/list/matchs'),
+                    '/tournaments/list/matchs'),
                    ('Retour', '/tournaments')]
         super().__init__(title, options)
 
@@ -142,7 +156,7 @@ class ListPlayer(Menu):
         options = [('Tous les joueurs par ordre alphabetique',
                     '/players/list/order-by-name'),
                    ('Tous les joueurs par classement',
-                   '/players/list/order-by-rank'), ('Retour', '/players')]
+                    '/players/list/order-by-rank'), ('Retour', '/players')]
         super().__init__(title, options)
 
 
