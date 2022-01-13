@@ -1,46 +1,49 @@
-from typing import Any, List, Tuple
+from enum import Enum
+from typing import Any, Dict, List, Tuple, Type
 from os import system, name
+from datetime import date
+from models.custom_type import Day, Gender, Month, Name, TimeControl, Year
+from tabulate import tabulate
 
 
 class View:
-    def __init__(self, title: str, content: str, blocking: bool = False):
+    def __init__(self, title: str, content: str = None, blocking: bool = False, clear: bool = True):
         self.title = title
         self.content = content
         self.blocking = blocking
+        self.clear = clear
 
     def display(self):
-        system('cls' if name == 'nt' else 'clear')
-        print('⎯' * (len(self.title)))
-        print(self.title)
-        print('⎯' * (len(self.title)))
-        print(self.content)
+        if self.clear:
+            system('cls' if name == 'nt' else 'clear')
+        if self.content:
+            print(tabulate([[self.title], [self.content]],
+                  tablefmt='fancy_grid'))
         if self.blocking:
             input()
 
 
-class ListView(View):
-    def __init__(self, title: str, items: List[Any]):
-        content = '\n'. \
-            join([str(item) for item in items])
-        super().__init__(title, content, True)
+class ListView():
+    def __init__(self, title: List[str], items: List[Any]):
+        self.title = title
+        self.content = [item.__list__() for item in items]
 
-
-class ErrorView(View):
-    def __init__(self, error: str):
-        super().__init__('Error', error, True)
+    def display(self):
+        system('cls' if name == 'nt' else 'clear')
+        input(tabulate(self.content, self.title, tablefmt="fancy_grid"))
 
 
 class Menu(View):
-    def __init__(self, title: str, options: List[Tuple[str, str]]):
+    def __init__(self, title: str, options: List[Tuple[str, str]], clear: bool = True):
         content = '\n'. \
             join([f"{nb}. {option}" for nb, (option, _)
                   in enumerate(options, start=1)])
-        super().__init__(title, content)
+        super().__init__(title, content, False, clear)
         self.options = options
 
     def display(self):
         super().display()
-        element = input()
+        element = input('\nChoix du numéro: ')
         if element.isdigit():
             value = int(element)
             if not 0 < value <= len(self.options):
@@ -51,29 +54,49 @@ class Menu(View):
 
 
 class Form(View):
-    # Dissocier le champ de sa description
-    # Convertir automatiquement l'input dans un type precis
-    # Valeur par defaut (optionnel)
-    # Template pour visualiser les donnees rentrees (optionnels)
-    # Class SelectItem pour les choix possibles
-    def __init__(self, title: str, fields: List[Tuple[str, str]]):
-        content = '\n'. \
-            join([f"{nb}. {val}" for nb, val in enumerate(fields, start=1)])
-        super().__init__(title, content)
+    def __init__(self, title: str, fields: List[Tuple[str, str, Type]], clear: bool = True):
+        super().__init__(title, None, False, clear)
         self.fields = fields
-        self.data = {}
+        self.template = Form.gen_template(fields)
+
+    def init_list_models(self):
+        models = {}
+        for k in self.fields:
+            models.setdefault(k[0])
+        return models
+
+    @staticmethod
+    def gen_template(fields):
+        return '\n'.join(f'{f[1]}: {{{f[0]}}}' for f in fields)
+
+    def render_template(self, **params):
+        self.content = self.template.format(
+            **{k: (v if v is not None else "N/A") for k, v in params.items()}
+        )
+
+    def post_exec(self, data: Dict):
+        return data
 
     def display(self):
-        system('cls' if name == 'nt' else 'clear')
-        print('⎯' * (len(self.title)))
-        print(self.title)
-        print('⎯' * (len(self.title)))
-        values = [[None, type(field[0])] for field in self.fields]
-        print(values)
-        for index, field in enumerate(self.fields):
-            print(f'{index}. {field[1]} ? {"N/A"}')
-        value = input()
-        return self.data
+        models = self.init_list_models()
+        self.render_template(**models)
+        super().display()
+        for k, f in zip(models.keys(), self.fields):
+            while True:
+                try:
+                    if issubclass(f[2], Enum):
+                        v = EnumView('Choix possible', [
+                                     v for v in f[2]]).display()
+                    else:
+                        v = f[2](input('\n' + f[1] + ' ? '))
+                    models[k] = v
+                    self.render_template(**models)
+                    super().display()
+                    break
+                except ValueError as e:
+                    super().display()
+                    print(f'\nErreur: {e} \n')
+        return self.post_exec(models)
 
 
 class MainMenu(Menu):
@@ -113,29 +136,36 @@ class TournamentMenu(Menu):
 class AddPlayerForm(Form):
     def __init__(self):
         title = 'Créer un joueur'
-        fields = [('firstname', 'Prénom'),
-                  ('lastname', 'Nom'),
-                  ('birthdate', 'Année'),
-                  ('birthdate', 'Mois'),
-                  ('birthdate', 'Jour'),
-                  ('gender', 'Sexe'),
-                  ('ranking', 'Classement')]
+        fields = [('firstname', 'Prénom', Name),
+                  ('lastname', 'Nom', Name),
+                  ('year', 'Année', Year),
+                  ('month', 'Mois', Month),
+                  ('day', 'Jour', Day),
+                  ('gender', 'Sexe', Gender),
+                  ('ranking', 'Classement', int)]
         super().__init__(title, fields)
+
+    def post_exec(self, data: Dict):
+        data['birthdate'] = date(data['year'], data['month'], data['day'])
+        return data
 
 
 class UpdatePlayerForm(Form):
     def __init__(self):
         title = 'Modifier un joueur'
-        fields = ['id', 'new ranking']
+        fields = [('ranking', 'Classement', int)]
         super().__init__(title, fields)
 
 
 class AddTournamentForm(Form):
     def __init__(self):
-        title = 'Creer un tournoi'
-        fields = ['name', 'location', 'start_date', 'number_of_rounds',
-                  'players',
-                  'time_control', 'description']
+        title = 'Créer un tournoi'
+        fields = [('name', 'Nom du tournoi', str),
+                  ('location', 'Lieu du tournoi', str),
+                  ('number_of_rounds', 'Nombre de tours', int),
+                  ('number_of_players', 'Nombre de joueurs', int),
+                  ('time_control', 'Controle du temps', TimeControl),
+                  ('description', 'Description', str)]
         super().__init__(title, fields)
 
 
@@ -160,7 +190,15 @@ class ListPlayer(Menu):
         super().__init__(title, options)
 
 
-class ItemView(Menu):
-    def __init__(self, title: str, items: List[Any]):
-        options = [(str(item), item.id) for item in items]
+class ItemMenu(Menu):
+    def __init__(self, title: str, items: List[Any], exit: bool = False):
+        options = [(str(item.__info__()), item.id) for item in items]
+        if exit:
+            options.append(('Fin des choix', 'exit'))
         super().__init__(title, options)
+
+
+class EnumView(Menu):
+    def __init__(self, title: str, items: List[Any]):
+        options = [(item.name, item.value) for item in items]
+        super().__init__(title, options, False)

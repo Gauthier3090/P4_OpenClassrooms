@@ -36,3 +36,12 @@ if __name__ == "__main__":
     router.add_route('/players/list/order-by-rank',
                      list_player_by_rank_controller)
     router.navigate('/')
+
+
+# Lister les vainqueurs d'un tournoi
+# Le nombre de joueurs quand on cree un tournoi doit etre pair
+# Maximum de tour = Max Joueur - 1
+# Docstring
+# readme
+# powerpoint (contexte, rappel des libraires env, git, qualite du code, MVC, comment appliquer le MCV,3
+# les difficultes rencontrées, manager, routeur, un ou deux algos, lancer flake8 et demo, axe d'amelioration)

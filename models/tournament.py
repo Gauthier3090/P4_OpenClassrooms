@@ -3,9 +3,8 @@ from pydantic.main import BaseModel
 from pydantic.types import PositiveInt, constr
 from typing import List
 from models.round import Round
-from models.timecontrol import TimeControl
 from models.match import Match
-from models.score import Score
+from models.custom_type import Score, TimeControl
 from views import Menu
 from player_manager import pm
 
@@ -25,6 +24,13 @@ class Tournament(BaseModel):
     def __str__(self):
         return f'{self.id}: {self.name}, {self.location}, {self.start_date},\
             {self.end_date}, {self.time_control.name}, {self.description}'
+
+    def __list__(self):
+        return [self.id, self.name, self.location, self.start_date, self.end_date,
+                self.time_control.name, self.description]
+
+    def __info__(self):
+        return self.name
 
     def sort_ranking_first_round(self):
         list_player = []
@@ -84,8 +90,6 @@ class Tournament(BaseModel):
             p1 = sort_player.pop(0)
             for p2 in sort_player:
                 match = Match(player_1_id=p1, player_2_id=p2)
-                print(self.matchs)
-                input()
                 if match not in self.matchs or len(sort_player) == 1:
                     sort_player.pop(sort_player.index(p2))
                     self.rounds.append(Round(name='Next round', matches=[match]))

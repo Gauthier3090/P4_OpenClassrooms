@@ -1,5 +1,5 @@
 from typing import Any
-from .score import Score
+from .custom_type import Score
 from pydantic.types import PositiveInt
 from pydantic import BaseModel
 
@@ -10,8 +10,10 @@ class Match(BaseModel):
     player_1_score: Score = None
 
     def __str__(self):
-        return f'{self.player_1_id}, {self.player_2_id}, {self.player_1_score}\
-            , {self.player_2_score}'
+        return f'{self.player_1_id}, {self.player_1_id}, {self.player_1_score.name}'
+
+    def __list__(self):
+        return [self.player_1_id, self.player_1_id, self.player_1_score.name]
 
     @property
     def player_2_score(self):

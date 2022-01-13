@@ -2,8 +2,7 @@ from pydantic import BaseModel
 from datetime import date
 from pydantic.class_validators import validator
 from pydantic.types import PositiveInt
-from .name import Name
-from .gender import Gender
+from .custom_type import Name, Gender
 
 
 class Player(BaseModel):
@@ -22,9 +21,15 @@ class Player(BaseModel):
         else:
             age = today.year - birthdate.year
         if age < 12:
-            raise ValueError('Your age is too small')
+            raise ValueError('Vous êtes trop jeune.')
         return birthdate
 
     def __str__(self):
         return f'{self.id}, {self.firstname}, {self.lastname}, {self.birthdate}\
         , {self.gender.name}, {self.ranking}'
+
+    def __list__(self):
+        return [self.firstname, self.lastname, self.birthdate, self.gender.name, self.ranking]
+
+    def __info__(self):
+        return f'{self.lastname} {self.firstname}'
