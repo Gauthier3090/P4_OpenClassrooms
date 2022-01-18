@@ -30,6 +30,13 @@ class Name(str):
         return str.__new__(cls, value)
 
 
+class NameTournament(Name):
+    def __new__(cls, value):
+        if len(value) < 5:
+            raise ValueError('Vous avez rentré une valeur trop petite (Minimum 5 caractères)')
+        return super().__new__(cls, value)
+
+
 class Year(int):
     def __new__(cls, value):
         value = int(value)
@@ -58,4 +65,20 @@ class Day(int):
         value = int(value)
         if value < 1 or value > 31:
             raise ValueError('Le jour doit être comprise entre 1..31 !')
+        return int.__new__(cls, value)
+
+
+class NumberPlayer(int):
+    def __new__(cls, value):
+        value = int(value)
+        if value % 2 != 0:
+            raise ValueError('Le nombre de joueurs doit être pair')
+        return int.__new__(cls, value)
+
+
+class NumberRound(int):
+    def __new__(cls, value, max_player):
+        value = int(value)
+        if value > int(max_player) - 1:
+            raise ValueError('Le nombre de tours surpassent le nombre autorisé')
         return int.__new__(cls, value)

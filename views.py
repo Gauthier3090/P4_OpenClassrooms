@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Any, Dict, List, Tuple, Type
 from os import system, name
 from datetime import date
-from models.custom_type import Day, Gender, Month, Name, TimeControl, Year
+from models.custom_type import Day, Gender, Month, Name, NameTournament, TimeControl, Year, NumberPlayer, NumberRound
 from tabulate import tabulate
 
 
@@ -26,7 +26,7 @@ class View:
 class ListView():
     def __init__(self, title: List[str], items: List[Any]):
         self.title = title
-        self.content = [item.__list__() for item in items]
+        self.content = [item for item in items]
 
     def display(self):
         system('cls' if name == 'nt' else 'clear')
@@ -87,6 +87,9 @@ class Form(View):
                     if issubclass(f[2], Enum):
                         v = EnumView('Choix possible', [
                                      v for v in f[2]]).display()
+                    elif issubclass(f[2], NumberRound):
+                        v = f[2](input('\n' + f[1] + ' ? '),
+                                 models['number_of_players'])
                     else:
                         v = f[2](input('\n' + f[1] + ' ? '))
                     models[k] = v
@@ -160,12 +163,12 @@ class UpdatePlayerForm(Form):
 class AddTournamentForm(Form):
     def __init__(self):
         title = 'Créer un tournoi'
-        fields = [('name', 'Nom du tournoi', str),
-                  ('location', 'Lieu du tournoi', str),
-                  ('number_of_rounds', 'Nombre de tours', int),
-                  ('number_of_players', 'Nombre de joueurs', int),
+        fields = [('name', 'Nom du tournoi', NameTournament),
+                  ('location', 'Lieu du tournoi', NameTournament),
+                  ('number_of_players', 'Nombre de joueurs', NumberPlayer),
+                  ('number_of_rounds', 'Nombre de tours', NumberRound),
                   ('time_control', 'Controle du temps', TimeControl),
-                  ('description', 'Description', str)]
+                  ('description', 'Description', NameTournament)]
         super().__init__(title, fields)
 
 
@@ -176,6 +179,7 @@ class ListTournament(Menu):
                    ('Tous les tours d un tournoi', '/tournaments/list/rounds'),
                    ('Tous les matchs d un tournoi',
                     '/tournaments/list/matchs'),
+                   ('Tous les vainqueurs d un tournoi', '/tournaments/list/win'),
                    ('Retour', '/tournaments')]
         super().__init__(title, options)
 
@@ -192,10 +196,10 @@ class ListPlayer(Menu):
 
 class ItemMenu(Menu):
     def __init__(self, title: str, items: List[Any], exit: bool = False):
-        options = [(str(item.__info__()), item.id) for item in items]
+        self.options = [(str(item.__info__()), item.id) for item in items]
         if exit:
-            options.append(('Fin des choix', 'exit'))
-        super().__init__(title, options)
+            self.options.append(('Fin des choix', 'exit'))
+        super().__init__(title, self.options)
 
 
 class EnumView(Menu):
