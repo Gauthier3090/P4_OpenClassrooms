@@ -1,3 +1,4 @@
+from datetime import datetime
 from enum import Enum
 
 
@@ -73,11 +74,23 @@ class Month(Enum):
 
 
 class Day(int):
-    def __new__(cls, value):
+    def __new__(cls, value, year, month):
         value = int(value)
-        if value < 1 or value > 31:
-            raise ValueError('Le jour doit être comprise entre 1..31 !')
+        max_day = cls.last_day_of_month(year, month)
+        if value < 1 or value > max_day:
+            raise ValueError(f'Le jour doit être comprise entre 1..{max_day} !')
         return int.__new__(cls, value)
+
+    def last_day_of_month(year, month):
+        last_days = [31, 30, 29, 28, 27]
+        for i in last_days:
+            try:
+                end = datetime(year, month, i)
+            except ValueError:
+                continue
+            else:
+                return end.date().day
+        return None
 
 
 class NumberPlayer(int):
