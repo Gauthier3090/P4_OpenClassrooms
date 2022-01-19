@@ -5,6 +5,10 @@ from pydantic import BaseModel
 
 
 class Match(BaseModel):
+    '''
+        Class qui permet de créer un match entre deux joueurs
+        et donner le résultat final du match.
+    '''
     player_1_id: PositiveInt
     player_2_id: PositiveInt
     player_1_score: Score = None
@@ -13,7 +17,7 @@ class Match(BaseModel):
         return f'{self.player_1_id}, {self.player_1_id}, {self.player_1_score.name}'
 
     def __list__(self):
-        return [self.player_1_id, self.player_1_id, self.player_1_score.name]
+        return [self.player_1_id, self.player_2_id, self.player_1_score.name]
 
     @property
     def player_2_score(self):

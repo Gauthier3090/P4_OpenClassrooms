@@ -6,6 +6,11 @@ from .custom_type import Name, Gender
 
 
 class Player(BaseModel):
+    '''
+        Class Player qui permet d'instancier un joueur
+        elle prend en parametre les differents informations
+        d'un joueur comme son rang.
+    '''
     firstname: Name
     lastname: Name
     birthdate: date

@@ -10,6 +10,10 @@ from player_manager import pm
 
 
 class Tournament(BaseModel):
+    '''
+        Class qui instancie un tournoi et qui prends en parametre
+        differents informations comme le nombre de joueurs et de rounds.
+    '''
     id: PositiveInt
     name: constr(min_length=5, max_length=20)
     location: constr(min_length=5, max_length=20)
@@ -59,13 +63,15 @@ class Tournament(BaseModel):
                 player).ranking, previous_opposant))
         return sort_player
 
-    def generate_first_round(self):
+    def generate_first_round(self, index: int):
         sort_player = sorted(self.players, key=lambda id: pm.read(id).ranking, reverse=True)
         for player_1, player_2 in zip(sort_player[:len(sort_player) // 2],
                                       sort_player[len(sort_player) // 2:]):
-            self.rounds.append(Round(name='Premier round',
+            self.rounds.append(Round(name=f'Round {index}',
                                      matches=[Match(player_1_id=player_1,
                                                     player_2_id=player_2)]))
+            index += 1
+        return index
 
     @property
     def matchs(self):
@@ -83,7 +89,7 @@ class Tournament(BaseModel):
                     score += match.player_2_score
         return score
 
-    def generate_next_round(self):
+    def generate_next_round(self, index: int):
         sort_player = sorted(self.players, key=lambda id:
                              (-self.get_player_score(id)))
         while sort_player:
@@ -92,16 +98,19 @@ class Tournament(BaseModel):
                 match = Match(player_1_id=p1, player_2_id=p2)
                 if match not in self.matchs or len(sort_player) == 1:
                     sort_player.pop(sort_player.index(p2))
-                    self.rounds.append(Round(name='Next round', matches=[match]))
+                    self.rounds.append(Round(name=f'Round {index}', matches=[match]))
+                    index += 1
                     break
             else:
                 p2 = sort_player.pop(0)
+        return index
 
     def play(self, menu: Menu, tm):
         if not self.end_date:
+            index = 1
             for i in range(0, self.number_of_rounds):
                 if not self.rounds:
-                    self.generate_first_round()
+                    index = self.generate_first_round(index)
                 for round in self.rounds:
                     if not round.end_date:
                         for match in round.matches:
@@ -109,7 +118,7 @@ class Tournament(BaseModel):
                                 float(menu.display())).value
                         round.end_date = datetime.today()
                 if i != self.number_of_rounds - 1:
-                    self.generate_next_round()
+                    index = self.generate_next_round(index)
                 else:
                     self.end_date = datetime.today()
                 tm.save_item(self.id)

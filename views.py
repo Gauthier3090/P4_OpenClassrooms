@@ -7,6 +7,9 @@ from tabulate import tabulate
 
 
 class View:
+    '''
+        But: Créer un affichage des menus dans la console
+    '''
     def __init__(self, title: str, content: str = None, blocking: bool = False, clear: bool = True):
         self.title = title
         self.content = content
@@ -23,7 +26,10 @@ class View:
             input()
 
 
-class ListView():
+class ListView:
+    '''
+        But: Créer un affichage qui permet de lister un ensemble d'élements
+    '''
     def __init__(self, title: List[str], items: List[Any]):
         self.title = title
         self.content = [item for item in items]
@@ -34,6 +40,9 @@ class ListView():
 
 
 class Menu(View):
+    '''
+        But: Créer un menu avec une liste de choix possible
+    '''
     def __init__(self, title: str, options: List[Tuple[str, str]], clear: bool = True):
         content = '\n'. \
             join([f"{nb}. {option}" for nb, (option, _)
@@ -54,6 +63,9 @@ class Menu(View):
 
 
 class Form(View):
+    '''
+        But: Créer un formulaire pour enregistrer des données
+    '''
     def __init__(self, title: str, fields: List[Tuple[str, str, Type]], clear: bool = True):
         super().__init__(title, None, False, clear)
         self.fields = fields
@@ -122,7 +134,6 @@ class PlayMenu(Menu):
     def __init__(self):
         title = 'Jouer'
         options = [('Lancer un tournoi', '/tournaments/play/launch'),
-                   ('Tableau des scores d\'un tournoi', '/tournaments/play/list'),
                    ('Retour', '/tournaments')]
         super().__init__(title, options)
 
@@ -195,10 +206,8 @@ class ListPlayer(Menu):
 
 
 class ItemMenu(Menu):
-    def __init__(self, title: str, items: List[Any], exit: bool = False):
+    def __init__(self, title: str, items: List[Any]):
         self.options = [(str(item.__info__()), item.id) for item in items]
-        if exit:
-            self.options.append(('Fin des choix', 'exit'))
         super().__init__(title, self.options)
 
 

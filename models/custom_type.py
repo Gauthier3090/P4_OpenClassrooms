@@ -20,6 +20,13 @@ class TimeControl(Enum):
 
 
 class Name(str):
+    '''
+        Class qui hérite de la class str.\n
+        Elle permet de vérifier:\n
+        Si la variable n'est pas vide.\n
+        Si la varibable est composée uniquement des lettres de l'alphabet.\n
+        Longueur maximum autorisé : 20 caractères.
+    '''
     def __new__(cls, value):
         if not value:
             raise ValueError('Vous avez rentré une valeur vide')
@@ -31,6 +38,11 @@ class Name(str):
 
 
 class NameTournament(Name):
+    '''
+        Class qui hérite de la class Name.\n
+        Elle permet de vérifier en plus des conditions de Name si la valeur
+        est inférieure à 5 caractères.\n
+    '''
     def __new__(cls, value):
         if len(value) < 5:
             raise ValueError('Vous avez rentré une valeur trop petite (Minimum 5 caractères)')

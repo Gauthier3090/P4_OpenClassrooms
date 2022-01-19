@@ -2,6 +2,10 @@ from typing import Any
 
 
 class Router:
+    '''
+        But: Permet de naviguer et de créer les menus grace au chemin indiqué avec la
+        méthode naviagate() et add_route()
+    '''
     def __init__(self):
         self.routes = []
 

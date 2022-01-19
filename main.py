@@ -45,5 +45,6 @@ if __name__ == "__main__":
 # Maximum de tour = Max Joueur - 1
 # Docstring
 # readme
-# powerpoint (contexte, rappel des libraires env, git, qualite du code, MVC, comment appliquer le MCV,3
+# powerpoint (contexte, rappel des librairies env, git, qualite du code, MVC, comment appliquer le MCV,3
 # les difficultes rencontrées, manager, routeur, un ou deux algos, lancer flake8 et demo, axe d'amelioration)
+# Ajouter requirements.txt
