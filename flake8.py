@@ -2,13 +2,10 @@ import os
 import platform
 
 
-NAME_ENV = os.path.basename(os.environ['VIRTUAL_ENV'])
-
-
 def launch_env():
     os_name = platform.system()
-    if os_name == 'Windows 10':
-        os.system(f'.\\{NAME_ENV}\\Scripts\\activate.bat')
+    if os_name == 'Windows':
+        os.system(f'.\\env\\Scripts\\activate.bat')
     print('Launch virtual env... [OK]')
 
 
