@@ -1,7 +1,8 @@
+from pydantic import ValidationError
 from player_manager import pm
 from tournament_manager import tm
 from router import router
-from views import AddPlayerForm, AddTournamentForm, ItemMenu, ListPlayer, Menu
+from views import AddPlayerForm, AddTournamentForm, ErrorView, ItemMenu, ListPlayer, Menu
 from views import ListTournament, PlayMenu
 from views import ListView, MainMenu, UpdatePlayerForm, PlayerMenu
 from views import TournamentMenu
@@ -36,7 +37,8 @@ def play_menu_controller():
 def add_tournament_controller():
     data = AddTournamentForm().display()
     players = pm.read_all()
-    data['players'] = [ItemMenu('Choisissez les joueurs', players).display() for _ in range(data['number_of_players'])]
+    item_menu = ItemMenu('Choisissez les joueurs', players)
+    data['players'] = [item_menu.display() for _ in range(data['number_of_players'])]
     tm.create(**data)
     router.navigate('/tournaments')
 
@@ -105,8 +107,13 @@ def list_all_matchs_controller():
 
 
 def add_player_controller():
-    data = AddPlayerForm().display()
-    pm.create(**data)
+    while True:
+        data = AddPlayerForm().display()
+        try:
+            pm.create(**data)
+            break
+        except ValidationError as e:
+            ErrorView(str(e)).display()
     router.navigate('/players')
 
 

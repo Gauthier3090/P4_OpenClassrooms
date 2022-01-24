@@ -53,7 +53,7 @@ py .\main.py
 ```
 
 
-## Linux ou MacOs
+## Unix
 
 La création d'environnements virtuels est faite en exécutant la commande [venv](https://docs.python.org/fr/3/library/venv.html) :
 

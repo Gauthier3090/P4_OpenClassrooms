@@ -62,6 +62,11 @@ class Menu(View):
             return self.display()
 
 
+class ErrorView(View):
+    def __init__(self, message: str = None,):
+        super().__init__('Erreur', message, True)
+
+
 class Form(View):
     '''
         But: Créer un formulaire pour enregistrer des données
@@ -210,8 +215,14 @@ class ListPlayer(Menu):
 
 class ItemMenu(Menu):
     def __init__(self, title: str, items: List[Any]):
-        self.options = [(str(item.__info__()), item.id) for item in items]
-        super().__init__(title, self.options)
+        self.items = items
+        super().__init__(title, [(str(item.__info__()), item.id) for item in items])
+
+    def display(self):
+        value = super().display()
+        items = [item for item in self.items if item.id != value]
+        self = self.__init__(self.title, items)
+        return value
 
 
 class EnumView(Menu):
