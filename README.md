@@ -78,3 +78,9 @@ Pour lancer le programme :
 ```bash
 python3 main.py
 ```
+
+Pour générer un rapport HTML flake8 utilisez cette ligne de commande :
+
+```bash
+flake8 --format=html --htmldir=flake-report --max-line-length=120 --exclude=venv && open flake-report/index.html
+```
