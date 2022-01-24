@@ -35,7 +35,13 @@ def play_menu_controller():
 
 
 def add_tournament_controller():
-    data = AddTournamentForm().display()
+    while True:
+        try:
+            data = AddTournamentForm().display()
+            data = AddTournamentForm().post_exec(data)
+            break
+        except ValueError as e:
+            ErrorView(e).display()
     players = pm.read_all()
     item_menu = ItemMenu('Choisissez les joueurs', players)
     data['players'] = [item_menu.display() for _ in range(data['number_of_players'])]
@@ -56,8 +62,7 @@ def list_all_rounds_controller():
         headers = ['Nom du round', 'Date de début', 'Date de fin']
         ListView(headers, [round.__list__() for round in tm.read(id).rounds]).display()
     else:
-        print('Aucun tournoi trouvé')
-        input()
+        ErrorView('Aucun tournoi trouvé')
     router.navigate('/tournaments')
 
 
@@ -81,8 +86,7 @@ def list_all_rounds_win_controller():
         headers = ["Vainqueur du match", 'Nom du round']
         ListView(headers, all_match).display()
     else:
-        print('Aucun tournoi trouvé')
-        input()
+        ErrorView('Aucun tournoi trouvé')
     router.navigate('/tournaments')
 
 
@@ -101,8 +105,7 @@ def list_all_matchs_controller():
         headers = ["ID du joueur 1", "ID du joueur 2", "Résultat du joueur 1"]
         ListView(headers, [match.__list__() for match in all_match]).display()
     else:
-        print('Aucun tournoi trouvé')
-        input()
+        ErrorView('Aucun tournoi trouvé')
     router.navigate('/tournaments')
 
 
@@ -110,10 +113,13 @@ def add_player_controller():
     while True:
         data = AddPlayerForm().display()
         try:
+            data = AddPlayerForm().post_exec(data)
             pm.create(**data)
             break
         except ValidationError as e:
-            ErrorView(str(e)).display()
+            ErrorView(e).display()
+        except ValueError as e:
+            ErrorView(e).display()
     router.navigate('/players')
 
 
@@ -136,8 +142,7 @@ def list_player_by_name_controller():
     if all_players:
         ListView(header, [player.__list__() for player in all_players]).display()
     else:
-        print('Aucun joueur trouvé')
-        input()
+        ErrorView('Aucun joueur trouvé')
     router.navigate('/players')
 
 
@@ -148,8 +153,7 @@ def list_player_by_rank_controller():
     if all_players:
         ListView(header, [player.__list__() for player in all_players]).display()
     else:
-        print('Aucun joueur trouvé')
-        input()
+        ErrorView('Aucun joueur trouvé')
     router.navigate('/players')
 
 

@@ -1,4 +1,3 @@
-from datetime import datetime
 from enum import Enum
 
 
@@ -74,23 +73,11 @@ class Month(Enum):
 
 
 class Day(int):
-    def __new__(cls, value, year, month):
+    def __new__(cls, value):
         value = int(value)
-        max_day = cls.last_day_of_month(year, month)
-        if value < 1 or value > max_day:
-            raise ValueError(f'Le jour doit être comprise entre 1..{max_day} !')
+        if value < 1 or value > 31:
+            raise ValueError('Le jour doit être comprise entre 1..31 !')
         return int.__new__(cls, value)
-
-    def last_day_of_month(year, month):
-        last_days = [31, 30, 29, 28, 27]
-        for i in last_days:
-            try:
-                end = datetime(year, month, i)
-            except ValueError:
-                continue
-            else:
-                return end.date().day
-        return None
 
 
 class NumberPlayer(int):
@@ -98,12 +85,4 @@ class NumberPlayer(int):
         value = int(value)
         if value % 2 != 0:
             raise ValueError('Le nombre de joueurs doit être pair')
-        return int.__new__(cls, value)
-
-
-class NumberRound(int):
-    def __new__(cls, value, max_player):
-        value = int(value)
-        if value > int(max_player) - 1:
-            raise ValueError('Le nombre de tours surpassent le nombre autorisé')
         return int.__new__(cls, value)

@@ -52,6 +52,11 @@ Pour lancer le programme :
 py .\main.py
 ```
 
+Pour générer un rapport HTML flake8 et l'ouvrir utilisez cette ligne de commande :
+```bash
+flake8 --format=html --htmldir=flake-report --max-line-length=120 --exclude=venv | start flake-report/index.html  
+```
+
 
 ## Unix
 
@@ -79,8 +84,8 @@ Pour lancer le programme :
 python3 main.py
 ```
 
-Pour générer un rapport HTML flake8 utilisez cette ligne de commande :
+Pour générer un rapport HTML flake8 et l'ouvrir utilisez cette ligne de commande :
 
 ```bash
-flake8 --format=html --htmldir=flake-report --max-line-length=120 --exclude=venv && open flake-report/index.html
+flake8 --format=html --htmldir=flake-report --max-line-length=120 --exclude=venv && ./flake-report/index.html
 ```

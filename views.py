@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Any, Dict, List, Tuple, Type
 from os import system, name
 from datetime import date
-from models.custom_type import Day, Gender, Month, Name, NameTournament, TimeControl, Year, NumberPlayer, NumberRound
+from models.custom_type import Day, Gender, Month, Name, NameTournament, TimeControl, Year, NumberPlayer
 from tabulate import tabulate
 
 
@@ -10,6 +10,7 @@ class View:
     '''
         But: Créer un affichage des menus dans la console
     '''
+
     def __init__(self, title: str, content: str = None, blocking: bool = False, clear: bool = True):
         self.title = title
         self.content = content
@@ -30,6 +31,7 @@ class ListView:
     '''
         But: Créer un affichage qui permet de lister un ensemble d'élements
     '''
+
     def __init__(self, title: List[str], items: List[Any]):
         self.title = title
         self.content = [item for item in items]
@@ -43,6 +45,7 @@ class Menu(View):
     '''
         But: Créer un menu avec une liste de choix possible
     '''
+
     def __init__(self, title: str, options: List[Tuple[str, str]], clear: bool = True):
         content = '\n'. \
             join([f"{nb}. {option}" for nb, (option, _)
@@ -71,6 +74,7 @@ class Form(View):
     '''
         But: Créer un formulaire pour enregistrer des données
     '''
+
     def __init__(self, title: str, fields: List[Tuple[str, str, Type]], clear: bool = True):
         super().__init__(title, None, False, clear)
         self.fields = fields
@@ -91,9 +95,6 @@ class Form(View):
             **{k: (v if v is not None else "N/A") for k, v in params.items()}
         )
 
-    def post_exec(self, data: Dict):
-        return data
-
     def display(self):
         models = self.init_list_models()
         self.render_template(**models)
@@ -104,9 +105,6 @@ class Form(View):
                     if issubclass(f[2], Enum):
                         v = EnumView('Choix possible', [
                                      v for v in f[2]]).display()
-                    elif issubclass(f[2], NumberRound):
-                        v = f[2](input('\n' + f[1] + ' ? '),
-                                 models['number_of_players'])
                     else:
                         v = f[2](input('\n' + f[1] + ' ? '))
                     models[k] = v
@@ -114,9 +112,9 @@ class Form(View):
                     super().display()
                     break
                 except ValueError as e:
+                    ErrorView(e).display()
                     super().display()
-                    print(f'\nErreur: {e} \n')
-        return self.post_exec(models)
+        return models
 
 
 class MainMenu(Menu):
@@ -182,10 +180,16 @@ class AddTournamentForm(Form):
         fields = [('name', 'Nom du tournoi', NameTournament),
                   ('location', 'Lieu du tournoi', NameTournament),
                   ('number_of_players', 'Nombre de joueurs', NumberPlayer),
-                  ('number_of_rounds', 'Nombre de tours', NumberRound),
+                  ('number_of_rounds', 'Nombre de tours', int),
                   ('time_control', 'Controle du temps', TimeControl),
                   ('description', 'Description', NameTournament)]
         super().__init__(title, fields)
+
+    def post_exec(self, data: Dict):
+        if data['number_of_players'] and data['number_of_rounds']:
+            if data['number_of_rounds'] > data['number_of_players'] - 1:
+                raise ValueError('Nombre de tours non autorisés !')
+        return data
 
 
 class ListTournament(Menu):
@@ -213,7 +217,8 @@ class ListPlayer(Menu):
 class ItemMenu(Menu):
     def __init__(self, title: str, items: List[Any]):
         self.items = items
-        super().__init__(title, [(str(item.__info__()), item.id) for item in items])
+        super().__init__(
+            title, [(str(item.__info__()), item.id) for item in items])
 
     def display(self):
         value = super().display()
