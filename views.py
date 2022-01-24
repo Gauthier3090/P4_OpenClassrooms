@@ -102,9 +102,6 @@ class Form(View):
                     elif issubclass(f[2], NumberRound):
                         v = f[2](input('\n' + f[1] + ' ? '),
                                  models['number_of_players'])
-                    elif issubclass(f[2], Day):
-                        v = f[2](input('\n' + f[1] + ' ? '),
-                                 models['year'], models['month'])
                     else:
                         v = f[2](input('\n' + f[1] + ' ? '))
                     models[k] = v
