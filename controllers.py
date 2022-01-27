@@ -77,10 +77,10 @@ def list_all_rounds_win_controller():
             for matches in round:
                 if matches[0] == 'matches':
                     for match in matches[1]:
-                        if match.player_1_score == Score.WIN:
+                        if Score(match.player_1_score).name == Score.WIN.name:
                             player = pm.read(match.player_1_id)
                             all_match.append([player.lastname + ' ' + player.firstname, round.name])
-                        elif match.player_1_score == Score.LOOSE:
+                        elif Score(match.player_1_score).name == Score.LOOSE.name:
                             player = pm.read(match.player_2_id)
                             all_match.append([player.lastname + ' ' + player.firstname, round.name])
         headers = ["Vainqueur du match", 'Nom du round']

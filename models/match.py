@@ -14,10 +14,10 @@ class Match(BaseModel):
     player_1_score: Score = None
 
     def __str__(self):
-        return f'{self.player_1_id}, {self.player_1_id}, {self.player_1_score.name}'
+        return f'{self.player_1_id}, {self.player_1_id}, {Score(self.player_1_score).name}'
 
     def __list__(self):
-        return [self.player_1_id, self.player_2_id, self.player_1_score.name]
+        return [self.player_1_id, self.player_2_id, Score(self.player_1_score).name]
 
     @property
     def player_2_score(self):
